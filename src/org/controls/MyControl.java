@@ -31,8 +31,8 @@ public class MyControl {
 		int x = Integer.valueOf(params.getPathParam("wyl"));
 		if (x == 0)
 			return new ControlRender("/index.jsp");
-		return new ControlRender(new FileInputStream(new File("E:/media/110907hodv20720-avi/xxx.txt")),
-				"application/x-msdownload;", "作为.txt");
+		return new ControlRender(new FileInputStream(new File("E:/xxx.txt")),
+				"application/x-msdownload;", "中文.txt");
 	}
 
 	@ControlMapping(isload = true)
