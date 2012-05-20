@@ -1,7 +1,5 @@
 package org.controls;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +28,8 @@ public class MyControl {
 			Exception {
 		int x = Integer.valueOf(params.getPathParam("wyl"));
 		if (x == 0)
-			return new ControlRender("/index.jsp");
-		return new ControlRender(new FileInputStream(new File("E:/xxx.txt")),
-				"application/x-msdownload;", "中文.txt");
+			return params.forward("/index.jsp");
+		return params.downloadFile("d:/sqleonardo3.jar", "ehcache作为dd是的.jar");
 	}
 
 	@ControlMapping(isload = true)
@@ -56,7 +53,7 @@ public class MyControl {
 			params.set("rpar", "从服务器响应的参数");
 		} else
 			System.out.println("path1启动执行...");
-		return new ControlRender("/index.jsp");
+		return params.forward("/index.jsp");
 	}
 
 	// http://localhost:8080/testmyrest/report/dbx/xx/654321
@@ -94,7 +91,7 @@ public class MyControl {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ControlRender("/vm/user/profile" + param.getPathParam("xh")
+		return param.forward("/vm/user/profile" + param.getPathParam("xh")
 				+ ".vm");
 	}
 
