@@ -24,6 +24,16 @@ public class MyControl {
 
 	public static final String path4 = "/{named}/{xh}/654321";
 
+	public int i = 0;
+
+	// http://localhost:8080/testmyrest/report/test/singleton
+	@ControlMapping(path = "/test/singleton")
+	public int testIsSingleton() {
+		// 默认是单例模式，所以i会一直增加,如果是非单例模式:ControlMarked配置isSingleton=false
+		// 则每次访问i都是是0
+		return i++;
+	}
+
 	// http://localhost:8080/testmyrest/report/wyl/1
 	@ControlMapping(path = "/wyl/{wyl}")
 	public Object testx(ControlTool t) throws FileNotFoundException, Exception {

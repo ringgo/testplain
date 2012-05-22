@@ -6,11 +6,11 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.tools.view.VelocityLayoutServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 自定义velocity的错误处理
@@ -19,7 +19,8 @@ import org.apache.velocity.tools.view.VelocityLayoutServlet;
 @SuppressWarnings("serial")
 public final class VelocityServlet extends VelocityLayoutServlet {
 
-	private final static Log LOG = LogFactory.getLog(VelocityServlet.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(VelocityServlet.class);
 
 	protected void error(HttpServletRequest req, HttpServletResponse res,
 			Throwable excp) {
