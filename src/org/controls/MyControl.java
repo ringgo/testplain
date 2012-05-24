@@ -3,6 +3,7 @@ package org.controls;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +27,26 @@ public class MyControl {
 
 	public int i = 0;
 
+	@ControlMapping(path = "/test/fileupload")
+	public String fileupload(ControlTool t) {
+		try {
+			HashMap<String, String> upinfo = t.fileupload("e:/tmp",
+					".txt,.sql,.doc,.rar", 50);
+			if (upinfo == null)
+				return "上传失败!";
+			else {
+				for (String key : upinfo.keySet()) {
+					System.out.println("表单属性：" + key + " 表单属性值："
+							+ upinfo.get(key));
+				}
+			}
+			return "上传成功!";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "上传失败!";
+	}
+
 	// http://localhost:8080/testmyrest/report/test/singleton
 	@ControlMapping(path = "/test/singleton")
 	public int testIsSingleton() {
@@ -36,11 +57,14 @@ public class MyControl {
 
 	// http://localhost:8080/testmyrest/report/wyl/1
 	@ControlMapping(path = "/wyl/{wyl}")
-	public Object testx(ControlTool t) throws FileNotFoundException, Exception {
+	public Object fileDownload(ControlTool t) throws FileNotFoundException,
+			Exception {
 		int x = Integer.valueOf(t.getX("wyl"));
 		if (x == 0)
 			return t.forward("/index.jsp");
-		return t.downloadFile("d:/test.jar", "中午.jar");
+		return t.downloadFile(
+				"E://tmp/20120525002842237870651_apache-tomcat-6.0.35.rar",
+				"apache-tomcat-6.0.35_中文.rar");
 	}
 
 	@ControlMapping(isload = true)
