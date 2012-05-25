@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -179,6 +180,18 @@ public class MyControl {
 		u.setCareer("工程师");
 		u.setSex("男");
 		return t.bean2jsonstr(u);
+	}
+	// http://localhost:8080/testmyrest/report/testsql/user
+	@ControlMapping(path = "/testsql/user")
+	public void test() {
+		try {
+			List<User> users = Dao.getUserList();
+			for (User u : users) {
+				System.out.println(u.getName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	// 500
 	// http://localhost:8080/testmyrest/report/dbx/xxxx/654321
