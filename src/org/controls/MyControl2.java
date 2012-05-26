@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.beans.User;
 import org.daos.Dao;
 import org.ext.dbutil.DbFactory;
-import org.msf.web.ControlMapping;
-import org.msf.web.ControlMarked;
+import org.msf.annotations.ControlMapping;
+import org.msf.annotations.ControlMarked;
 import org.msf.web.ControlRender;
 import org.msf.web.ControlTool;
 
-@ControlMarked(path = "/report/2",isSingleton=false)
+@ControlMarked(path = "/report/2", isSingleton = false)
 public class MyControl2 {
 	public static final String path1 = "/{user}/{id}";
 
@@ -26,7 +26,7 @@ public class MyControl2 {
 
 	public int i = 0;
 
-	// http://localhost:8080/testmyrest/report/test/singleton
+	// http://localhost:8080/testmyrest/report/2/test/singleton
 	@ControlMapping(path = "/test/singleton")
 	public int testIsSingleton() {
 		// 默认是单例模式，所以i会一直增加,如果是非单例模式:ControlMarked配置isSingleton=false
@@ -34,7 +34,7 @@ public class MyControl2 {
 		return i++;
 	}
 
-	// http://localhost:8080/testmyrest/report/wyl/1
+	// http://localhost:8080/testmyrest/report/2/wyl/1
 	@ControlMapping(path = "/wyl/{wyl}")
 	public Object testx(ControlTool t) throws FileNotFoundException, Exception {
 		int x = Integer.valueOf(t.getX("wyl"));
@@ -53,7 +53,7 @@ public class MyControl2 {
 		DbFactory.destroy();
 	}
 
-	// http://localhost:8080/testmyrest/report/dbx/654321?id=11&name=lsf&sex=1&age=22(注意不能带#)
+	// http://localhost:8080/testmyrest/report/2/dbx/654321?id=11&name=lsf&sex=1&age=22(注意不能带#)
 	@ControlMapping(path = path1)
 	public ControlRender test(ControlTool t) {
 		System.out.println("path1..._");
@@ -67,7 +67,7 @@ public class MyControl2 {
 		return t.forward("/index.jsp");
 	}
 
-	// http://localhost:8080/testmyrest/report/dbx/xx/654321
+	// http://localhost:8080/testmyrest/report/2/dbx/xx/654321
 	@ControlMapping(path = path2)
 	public String getHtml1(ControlTool t) {
 		System.out.println("path2...+_");
@@ -75,7 +75,7 @@ public class MyControl2 {
 		return "xxx";
 	}
 
-	// http://localhost:8080/testmyrest/report/dbx/xxx/654321
+	// http://localhost:8080/testmyrest/report/2/dbx/xxx/654321
 	@ControlMapping(path = path3)
 	public void getHtml2(ControlTool t) {
 		try {
@@ -90,7 +90,7 @@ public class MyControl2 {
 		}
 	}
 
-	// http://localhost:8080/testmyrest/report/v/1/654321
+	// http://localhost:8080/testmyrest/report/2/v/1/654321
 	@ControlMapping(path = path4)
 	public ControlRender getHtml0(ControlTool t) {
 		try {
@@ -108,14 +108,14 @@ public class MyControl2 {
 		return t.forward("/vm/user/profile" + t.getX("xh") + ".vm");
 	}
 
-	// http://localhost:8080/testmyrest/report/dd/xx?json={id=1,name='lsf',sex=2,age=22,career='wt'}
+	// http://localhost:8080/testmyrest/report/2/dd/xx?json={id=1,name='lsf',sex=2,age=22,career='wt'}
 	@ControlMapping(path = "/dd/xx")
 	public void testjson(ControlTool t) {
 		User u = t.jsonstr2bean(User.class, t.get("json"));
 		System.out.println(u.getName() + " " + u.getCareer());
 	}
 
-	// http://localhost:8080/testmyrest/report/dd/re
+	// http://localhost:8080/testmyrest/report/2/dd/re
 	@ControlMapping(path = "/dd/re")
 	public Object testre(ControlTool t) {
 		try {
@@ -126,7 +126,7 @@ public class MyControl2 {
 		return null;
 	}
 
-	// http://localhost:8080/testmyrest/report/dd/for
+	// http://localhost:8080/testmyrest/report/2/dd/for
 	@ControlMapping(path = "/dd/for")
 	public Object testfor(ControlTool t) {
 		ArrayList arr = new ArrayList();
@@ -135,7 +135,7 @@ public class MyControl2 {
 		return t.forward("/for.jsp", "xm", "李师傅", "sex", false, "age", arr);
 	}
 
-	// http://localhost:8080/testmyrest/report/dd/vv?x=1132
+	// http://localhost:8080/testmyrest/report/2/dd/vv?x=1132
 	@ControlMapping(path = "/dd/vv")
 	public Object testjson2(ControlTool t) {
 		try {
@@ -157,5 +157,5 @@ public class MyControl2 {
 		return t.bean2jsonstr(u);
 	}
 	// 500
-	// http://localhost:8080/testmyrest/report/dbx/xxxx/654321
+	// http://localhost:8080/testmyrest/report/2/dbx/xxxx/654321
 }

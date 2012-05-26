@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.beans.User;
 import org.daos.Dao;
 import org.ext.dbutil.DbFactory;
-import org.msf.web.ControlMapping;
-import org.msf.web.ControlMarked;
+import org.msf.annotations.ControlMapping;
+import org.msf.annotations.ControlMarked;
 import org.msf.web.ControlRender;
 import org.msf.web.ControlTool;
 
@@ -27,6 +27,12 @@ public class MyControl {
 	public static final String path4 = "/{named}/{xh}/654321";
 
 	public int i = 0;
+
+	// http://localhost:8080/testmyrest/report/test/testMethod
+	@ControlMapping(path = "/test/testMethod", httpMethod = "post")
+	public String testMethod() {
+		return "只支持post访问!";
+	}
 
 	@ControlMapping(path = "/test/fileupload")
 	public String fileupload(ControlTool t) {
@@ -181,6 +187,7 @@ public class MyControl {
 		u.setSex("男");
 		return t.bean2jsonstr(u);
 	}
+
 	// http://localhost:8080/testmyrest/report/testsql/user
 	@ControlMapping(path = "/testsql/user")
 	public void test() {
