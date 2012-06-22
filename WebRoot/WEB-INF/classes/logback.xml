@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<property name="TOMCAT_HOME" value="./.." />
+	<property name="TOMCAT_WEBAPPS" value="${TOMCAT_HOME}/webapps" />
+	<property name="TOMCAT_PROJECT_ROOT"
+		value="${TOMCAT_WEBAPPS}/testmyrest" />
+
+	<property name="TOMCAT_PROJECT_WEBINF"
+		value="${TOMCAT_PROJECT_ROOT}/WEB-INF" />
+
+	<property name="TOMCAT_PROJECT_CLASSES"
+		value="${TOMCAT_PROJECT_WEBINF}/classes" />
+
+	<property file="${TOMCAT_PROJECT_CLASSES}/logback_vars.properties" />
+	<!-- 控制台 -->
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${STDOUT_OUT_FMT}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 文件 超过所设大小就重新写入一个文件 -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<!-- <level>debug</level> 指定要对级别为ERROR日志信息过滤 -->
+			<OnMismatch>DENY</OnMismatch><!-- 如果不匹配，则拒绝处理 -->
+			<OnMatch>ACCEPT</OnMatch><!-- 如果匹配，则立即处理 -->
+		</filter>
+		<File>${LOG_NAME}</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_NAME_PATTERN}</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>${MAX_FILE_SIZE}</MaxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${FILE_OUT_FMT}</pattern>
+		</encoder>
+	</appender>
+
+	<root level="${ROOT_LEVEL}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

@@ -2,6 +2,6 @@
 <html>
 	<body>
 		${xm}| ${sex}| ${age}| This is my JSP page!!!!!!!!.
-		<%= request.getParameter("cs")%>
+		<%=request.getParameter("cs")%>
 	</body>
 </html>
