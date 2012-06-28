@@ -4,26 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.beans.User;
 import org.daos.Dao;
 import org.ext.dbutil.DbFactory;
 import org.msf.annotations.ControlMapping;
 import org.msf.annotations.ControlMarked;
-import org.msf.web.ControlRender;
-import org.msf.web.ControlTool;
+import org.msf.web.CT;
 
 @ControlMarked(path = "/report/2", isSingleton = false)
 public class MyControl2 {
-	public static final String path1 = "/{user}/{id}";
-
-	public static final String path2 = "/dbx/xx/{idd}";
-
-	public static final String path3 = "/{xxd}/xxx/654321";
-
-	public static final String path4 = "/{named}/{xh}/654321";
-
 	public int i = 0;
 
 	// http://localhost:8080/testmyrest/report/2/test/singleton
@@ -35,12 +24,11 @@ public class MyControl2 {
 	}
 
 	// http://localhost:8080/testmyrest/report/2/wyl/1
-	@ControlMapping(path = "/wyl/{wyl}")
-	public Object testx(ControlTool t) throws FileNotFoundException, Exception {
-		int x = Integer.valueOf(t.getX("wyl"));
+	@ControlMapping(path = "/wyl/{x}")
+	public Object testx(int x) throws FileNotFoundException, Exception {
 		if (x == 0)
-			return t.forward("/index.jsp");
-		return t.downloadFile("d:/test.jar", "中午.jar");
+			return CT.get().forward("/index.jsp");
+		return CT.get().downloadfile("d:/test.jar", "中午.jar");
 	}
 
 	@ControlMapping(isload = true)
@@ -54,72 +42,68 @@ public class MyControl2 {
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dbx/654321?id=11&name=lsf&sex=1&age=22(注意不能带#)
-	@ControlMapping(path = path1)
-	public ControlRender test(ControlTool t) {
+	@ControlMapping(path = "/{user}/{id}")
+	public Object test(String user, int id) {
 		System.out.println("path1..._");
-		User u = t.params2bean(User.class);
+		User u = CT.get().params2bean(User.class);
 		if (u != null) {
-			System.out.println("path1启动执行..." + u.getName() + " "
-					+ t.getX("user") + " " + t.get("age"));
-			t.set("rpar", "从服务器响应的参数");
+			System.out.println("path1启动执行..." + u.getName() + " " + user + " "
+					+ CT.get().reqParam("age"));
+			CT.get().reqAttr("rpar", "从服务器响应的参数");
 		} else
 			System.out.println("path1启动执行...");
-		return t.forward("/index.jsp");
+		return CT.get().forward("/index.jsp");
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dbx/xx/654321
-	@ControlMapping(path = path2)
-	public String getHtml1(ControlTool t) {
+	@ControlMapping(path = "/dbx/xx/{idd}")
+	public String getHtml1(String idd) {
 		System.out.println("path2...+_");
-		System.out.println("path2..." + t.getX("idd"));
+		System.out.println("path2..." + idd);
 		return "xxx";
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dbx/xxx/654321
-	@ControlMapping(path = path3)
-	public void getHtml2(ControlTool t) {
+	@ControlMapping(path = "/{xxd}/xxx/654321")
+	public void getHtml2(String xxd) {
 		try {
 			System.out.println("path3...");
-			if (t != null) {
-				HttpServletRequest req = t.getHttpRequest();
-				t.getHttpResponse().getWriter().write(
-						"dbx2....." + req.getRequestURI());
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	// http://localhost:8080/testmyrest/report/2/v/1/654321
-	@ControlMapping(path = path4)
-	public ControlRender getHtml0(ControlTool t) {
+	@ControlMapping(path = "/{named}/{xh}/654321")
+	public Object getHtml0(String named, String xh) {
 		try {
-			System.out.println("path4..." + t.getX("xh"));
+			System.out.println("path4..." + xh);
 
-			t.set("page_array", Dao.getUserList());
-			t.set("page_bd", "page++++bd");
-			t.set("page_hd", "page___bd");
+			CT.get().reqAttr("page_array", Dao.getUserList());
+			CT.get().reqAttr("page_bd", "page++++bd");
+			CT.get().reqAttr("page_hd", "page___bd");
 		} catch (Exception e) {
 			// param.getHttpResponse().setStatus(500);
 			// return null;
 			// return param.forward("/500.jsp");
 			// e.printStackTrace();
 		}
-		return t.forward("/vm/user/profile" + t.getX("xh") + ".vm");
+		return CT.get().forward("/vm/user/profile" + xh + ".vm");
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dd/xx?json={id=1,name='lsf',sex=2,age=22,career='wt'}
 	@ControlMapping(path = "/dd/xx")
-	public void testjson(ControlTool t) {
-		User u = t.jsonstr2bean(User.class, t.get("json"));
+	public void testjson() {
+		User u = CT.get().jsonstr2bean(User.class, CT.get().reqParam("json"));
 		System.out.println(u.getName() + " " + u.getCareer());
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dd/re
 	@ControlMapping(path = "/dd/re")
-	public Object testre(ControlTool t) {
+	public Object testre() {
 		try {
-			return t.redirect("/report/dd/vv", "x", "作为xdx", "tstatt", "作为11");
+			return CT.get().redirect("/report/dd/vv", "x", "作为xdx", "tstatt",
+					"作为11");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -128,20 +112,21 @@ public class MyControl2 {
 
 	// http://localhost:8080/testmyrest/report/2/dd/for
 	@ControlMapping(path = "/dd/for")
-	public Object testfor(ControlTool t) {
+	public Object testfor() {
 		ArrayList arr = new ArrayList();
 		arr.add(1);
 		arr.add("str");
-		return t.forward("/for.jsp", "xm", "李师傅", "sex", false, "age", arr);
+		return CT.get().forward("/for.jsp", "xm", "李师傅", "sex", false, "age",
+				arr);
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dd/vv?x=1132
 	@ControlMapping(path = "/dd/vv")
-	public Object testjson2(ControlTool t) {
+	public Object testjson2() {
 		try {
-			System.out.println(t.get("x"));
-			System.out.println(t.get("tstatt"));
-			System.out.println(t.getAtt("x"));
+			System.out.println(CT.get().reqParam("x"));
+			System.out.println(CT.get().reqParam("tstatt"));
+			System.out.println(CT.get().reqAttr("x"));
 		} catch (Exception x) {
 			try {
 
@@ -150,11 +135,11 @@ public class MyControl2 {
 			}
 		}
 		User u = new User();
-		u.setName(t.get("x"));
+		u.setName(CT.get().reqParam("x"));
 		u.setAge(11);
 		u.setCareer("工程师");
 		u.setSex("男");
-		return t.bean2jsonstr(u);
+		return CT.get().bean2jsonstr(u);
 	}
 	// 500
 	// http://localhost:8080/testmyrest/report/2/dbx/xxxx/654321

@@ -30,9 +30,9 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-io-2.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/myrest.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/guice-2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/servlet.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ehcache-tool.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/myrest.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
