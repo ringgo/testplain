@@ -27,8 +27,8 @@ public class MyControl {
 	@ControlMapping(path = "/test/fileupload")
 	public String fileupload() {
 		try {
-			Map<String, String> upinfo = CT.get().uploadfile("e:/tmp",
-					".txt,.sql,.doc,.rar", 10);
+			Map<String, String> upinfo = CT.fileupload("e:/tmp",
+					".txt,.sql,.doc,.rar", 48);
 			if (upinfo == null)
 				return "上传失败!";
 			else {
@@ -40,8 +40,8 @@ public class MyControl {
 			return "上传成功!";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return e.getMessage();
 		}
-		return "上传失败!";
 	}
 
 	// http://localhost:8080/testmyrest/report/test/singleton
@@ -57,9 +57,9 @@ public class MyControl {
 	public Object fileDownload(String x) {
 
 		if (Integer.valueOf(x) == 0)
-			return CT.get().forward("/index.jsp");
+			return CT.forward("/index.jsp");
 		try {
-			return CT.get().downloadfile(
+			return CT.filedownload(
 					"D:/projects/css/free/css tmplate/_music/hjbj.mp3",
 					"hjbj.mp3");
 		} catch (FileNotFoundException e) {
@@ -81,14 +81,14 @@ public class MyControl {
 	@ControlMapping(path = "/{user}/{id}")
 	public Object test(String user, String id) {
 		System.out.println("path1..._");
-		User u = CT.get().params2bean(User.class);
+		User u = CT.params2bean(User.class);
 		if (u != null) {
 			System.out.println("path1启动执行..." + u.getName() + " " + user + " "
-					+ CT.get().reqParam("age"));
-			CT.get().reqAttr("rpar", "从服务器响应的参数");
+					+ CT.getReqParam("age"));
+			CT.setReqAttr("rpar", "从服务器响应的参数");
 		} else
 			System.out.println("path1启动执行...");
-		return CT.get().forward("/index.jsp");
+		return CT.forward("/index.jsp");
 	}
 
 	// http://localhost:8080/testmyrest/report/dbx/xx/654321
@@ -115,23 +115,22 @@ public class MyControl {
 		try {
 			System.out.println("path4..." + xh);
 
-			// CT.get().reqAttr("page_array", Dao.getUserList());
-			CT.get().reqAttr("page_bd", "page+++作为+bd");
-			CT.get().reqAttr("page_hd", "page___bd");
+			// CT.reqAttr("page_array", Dao.getUserList());
+			CT.setReqAttrs("page_bd", "page+++作为+bd", "page_hd", "page___bd");
 		} catch (Exception e) {
 			// param.getHttpResponse().setStatus(500);
 			// return null;
 			// return param.forward("/500.jsp");
 			// e.printStackTrace();
 		}
-		return CT.get().forward("/vm/user/profile" + xh + ".vm", "page_bd3",
+		return CT.forward("/vm/user/profile" + xh + ".vm", "page_bd3",
 				"page+++作为3d+bd");
 	}
 
 	// http://localhost:8080/testmyrest/report/dd/xx?json={id=1,name='lsf',sex=2,age=22,career='wt'}
 	@ControlMapping(path = "/dd/xx")
 	public void testjson() {
-		User u = CT.get().jsonstr2bean(User.class, CT.get().reqParam("json"));
+		User u = CT.jsonstr2bean(User.class, CT.getReqParam("json"));
 		System.out.println(u.getName() + " " + u.getCareer());
 	}
 
@@ -139,8 +138,7 @@ public class MyControl {
 	@ControlMapping(path = "/dd/re")
 	public Object testre() {
 		try {
-			return CT.get().redirect("/report/dd/vv", "x", "作为xdx", "tstatt",
-					"作为11");
+			return CT.redirect("/report/dd/vv", "x", "作为xdx", "tstatt", "作为11");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -153,17 +151,16 @@ public class MyControl {
 		ArrayList arr = new ArrayList();
 		arr.add(1);
 		arr.add("str");
-		return CT.get().forward("/for.jsp", "xm", "李师傅", "sex", false, "age",
-				arr);
+		return CT.forward("/for.jsp", "xm", "李师傅", "sex", false, "age", arr);
 	}
 
 	// http://localhost:8080/testmyrest/report/dd/vv?x=1132
 	@ControlMapping(path = "/dd/vv")
 	public Object testjson2() {
 		try {
-			System.out.println(CT.get().reqParam("x"));
-			System.out.println(CT.get().reqParam("tstatt"));
-			System.out.println(CT.get().reqAttr("x"));
+			System.out.println(CT.getReqParam("x"));
+			System.out.println(CT.getReqParam("tstatt"));
+			System.out.println(CT.getReqAttr("x"));
 		} catch (Exception x) {
 			try {
 
@@ -172,11 +169,11 @@ public class MyControl {
 			}
 		}
 		User u = new User();
-		u.setName(CT.get().reqParam("x"));
+		u.setName(CT.getReqParam("x"));
 		u.setAge(11);
 		u.setCareer("工程师");
 		u.setSex("男");
-		return CT.get().bean2jsonstr(u);
+		return CT.bean2jsonstr(u);
 	}
 
 	// http://localhost:8080/testmyrest/report/testsql/user

@@ -14,12 +14,10 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/velocity-1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/velocity-tools-2.0-beta4.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/werken-xpath-0.9.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/bonecp.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-3.1.10-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.6.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-dbutils-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ehcache-1.2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ecache-tool.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/sqljdbc.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/guava-10.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
@@ -32,7 +30,8 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-io-2.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/guice-2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/servlet.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ehcache-tool.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/myrest.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/bonecp"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ehcache-tool"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/myrest"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

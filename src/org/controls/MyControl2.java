@@ -27,8 +27,8 @@ public class MyControl2 {
 	@ControlMapping(path = "/wyl/{x}")
 	public Object testx(int x) throws FileNotFoundException, Exception {
 		if (x == 0)
-			return CT.get().forward("/index.jsp");
-		return CT.get().downloadfile("d:/test.jar", "中午.jar");
+			return CT.forward("/index.jsp");
+		return CT.filedownload("d:/test.jar", "中午.jar");
 	}
 
 	@ControlMapping(isload = true)
@@ -45,14 +45,14 @@ public class MyControl2 {
 	@ControlMapping(path = "/{user}/{id}")
 	public Object test(String user, int id) {
 		System.out.println("path1..._");
-		User u = CT.get().params2bean(User.class);
+		User u = CT.params2bean(User.class);
 		if (u != null) {
 			System.out.println("path1启动执行..." + u.getName() + " " + user + " "
-					+ CT.get().reqParam("age"));
-			CT.get().reqAttr("rpar", "从服务器响应的参数");
+					+ CT.getReqParam("age"));
+			CT.setReqAttr("rpar", "从服务器响应的参数");
 		} else
 			System.out.println("path1启动执行...");
-		return CT.get().forward("/index.jsp");
+		return CT.forward("/index.jsp");
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dbx/xx/654321
@@ -78,23 +78,20 @@ public class MyControl2 {
 	public Object getHtml0(String named, String xh) {
 		try {
 			System.out.println("path4..." + xh);
-
-			CT.get().reqAttr("page_array", Dao.getUserList());
-			CT.get().reqAttr("page_bd", "page++++bd");
-			CT.get().reqAttr("page_hd", "page___bd");
+			CT.setReqAttrs("page_array", Dao.getUserList(),"page_bd", "page++++bd","page_hd", "page___bd");
 		} catch (Exception e) {
 			// param.getHttpResponse().setStatus(500);
 			// return null;
 			// return param.forward("/500.jsp");
 			// e.printStackTrace();
 		}
-		return CT.get().forward("/vm/user/profile" + xh + ".vm");
+		return CT.forward("/vm/user/profile" + xh + ".vm");
 	}
 
 	// http://localhost:8080/testmyrest/report/2/dd/xx?json={id=1,name='lsf',sex=2,age=22,career='wt'}
 	@ControlMapping(path = "/dd/xx")
 	public void testjson() {
-		User u = CT.get().jsonstr2bean(User.class, CT.get().reqParam("json"));
+		User u = CT.jsonstr2bean(User.class, CT.getReqParam("json"));
 		System.out.println(u.getName() + " " + u.getCareer());
 	}
 
@@ -102,7 +99,7 @@ public class MyControl2 {
 	@ControlMapping(path = "/dd/re")
 	public Object testre() {
 		try {
-			return CT.get().redirect("/report/dd/vv", "x", "作为xdx", "tstatt",
+			return CT.redirect("/report/dd/vv", "x", "作为xdx", "tstatt",
 					"作为11");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -116,7 +113,7 @@ public class MyControl2 {
 		ArrayList arr = new ArrayList();
 		arr.add(1);
 		arr.add("str");
-		return CT.get().forward("/for.jsp", "xm", "李师傅", "sex", false, "age",
+		return CT.forward("/for.jsp", "xm", "李师傅", "sex", false, "age",
 				arr);
 	}
 
@@ -124,9 +121,9 @@ public class MyControl2 {
 	@ControlMapping(path = "/dd/vv")
 	public Object testjson2() {
 		try {
-			System.out.println(CT.get().reqParam("x"));
-			System.out.println(CT.get().reqParam("tstatt"));
-			System.out.println(CT.get().reqAttr("x"));
+			System.out.println(CT.getReqParam("x"));
+			System.out.println(CT.getReqParam("tstatt"));
+			System.out.println(CT.getReqAttr("x"));
 		} catch (Exception x) {
 			try {
 
@@ -135,11 +132,11 @@ public class MyControl2 {
 			}
 		}
 		User u = new User();
-		u.setName(CT.get().reqParam("x"));
+		u.setName(CT.getReqParam("x"));
 		u.setAge(11);
 		u.setCareer("工程师");
 		u.setSex("男");
-		return CT.get().bean2jsonstr(u);
+		return CT.bean2jsonstr(u);
 	}
 	// 500
 	// http://localhost:8080/testmyrest/report/2/dbx/xxxx/654321
