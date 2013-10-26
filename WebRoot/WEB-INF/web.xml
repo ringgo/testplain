@@ -1,55 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<!-- rest -->
-	<servlet>
-		<servlet-name>RestServlet</servlet-name>
-		<servlet-class>org.msf.web.RestServlet</servlet-class>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>demo</display-name>
+	<filter>
+		<filter-name>plainFilter</filter-name>
+		<filter-class>org.msf.mvc.web.RestFilter</filter-class>
+		<init-param>
+			<param-name>filters_packages</param-name>
+			<param-value>org.filters</param-value>
+		</init-param>
 		<init-param>
 			<param-name>control_packages</param-name>
 			<param-value>org.controls</param-value>
 		</init-param>
 		<init-param>
-			<param-name>maingwt</param-name>
-			<param-value>testgwt</param-value>
-		</init-param>
-		<init-param>
 			<param-name>encoding</param-name>
-			<param-value>utf-8</param-value>
+			<param-value>UTF-8</param-value>
 		</init-param>
-		<load-on-startup>0</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>RestServlet</servlet-name>
-		<url-pattern>/report/*</url-pattern>
-	</servlet-mapping>
-	<!-- velocity -->
-	<servlet>
-		<servlet-name>velocity</servlet-name>
-		<servlet-class>org.VelocityServlet</servlet-class>
 		<init-param>
-			<param-name>org.apache.velocity.properties</param-name>
-			<param-value>/WEB-INF/velocity.properties</param-value>
+			<param-name>excludes</param-name>
+			<param-value>.+\.jsp,.+\.css</param-value>
 		</init-param>
-
-		<load-on-startup>10</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>velocity</servlet-name>
-		<url-pattern>*.vm</url-pattern>
-	</servlet-mapping>
-
-	<welcome-file-list>
-		<welcome-file>/index.jsp</welcome-file>
-	</welcome-file-list>
-	<error-page>
-		<error-code>404</error-code>
-		<location>/404.jsp</location>
-	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/500.jsp</location>
-	</error-page>
+	</filter>
+	<filter-mapping>
+		<filter-name>plainFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

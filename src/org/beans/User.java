@@ -1,70 +1,65 @@
 package org.beans;
 
+import org.msf.db.annotation.Column;
+import org.msf.db.annotation.Table;
+
+@Table(dataSource = "mysql5", name = "act_id_user")
 public class User {
-	private int id;
-	private String name;
-	private String sex;
-	private Integer age;
-	private String career;
+	@Column(name = "ID_")
+	private String uname;
 
-	public User() {
-		super();
+	@Column(name = "PWD_")
+	private String upwd;
+
+	private String[] sex;
+
+	private String f1;
+	private String f2;
+
+	public String getUname() {
+		return uname;
 	}
 
-	public User(Integer id, String name, String sex, Integer age, String career) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.sex = sex;
-		this.age = age;
-		this.career = career;
+	public void setUname(String uname) {
+		this.uname = uname;
 	}
 
-	public int getId() {
-		return id;
+	public String getUpwd() {
+		return upwd;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUpwd(String upwd) {
+		this.upwd = upwd;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSex() {
+	public String[] getSex() {
 		return sex;
 	}
 
-	public void setSex(String sex) {
+	public void setSex(String[] sex) {
 		this.sex = sex;
 	}
 
-	public Integer getAge() {
-		return age;
+	public String getF1() {
+		return f1;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setF1(String f1) {
+		this.f1 = f1;
 	}
 
-	public String getCareer() {
-		return career;
+	public String getF2() {
+		return f2;
 	}
 
-	public void setCareer(String career) {
-		this.career = career;
+	public void setF2(String f2) {
+		this.f2 = f2;
 	}
 
+	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("[" + id + ", " + name + ", " + sex + ", " + age + ", "
-				+ career + "]");
-		return sb.toString();
+		return "User [uname=" + uname + ", upwd=" + upwd + ", sex=[" + sex[0]
+				+ "," + sex[1] + "], f1=" + f1 + ", f2=" + f2 + "]";
 	}
 
 }
